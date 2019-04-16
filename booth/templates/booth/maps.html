@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html lang="ko">
+    <head>
+        <title>전국 무료 급식소 지도</title>
+        <link rel="stylesheet" href="{% static 'css/maps.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+    </head>
+    <body>
+        <h1>전국 무료 급식소 지도</h1>
+        <hr />
+        <div id="map"></div>
+        <script>
+            function initMap() {
+                var map;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 36.6583179, lng: 127.8590182},
+                    zoom: 6,
+                });
+                {% for booth in booths %}
+                    var contentString =
+                        '<div id="content">' +
+                            '<div id="siteNotice">' +
+                            '</div>' +
+                            '<h2 id="firstHeading" class="firstHeading">{{ booth.name }}</h2>' +
+                            '<div id="bodyContent">' +
+                                '<p>도로명주소: {{ booth.road_address }}</p>' +
+                                '<p>지번주소: {{ booth.land_address }}</p>' +
+                                '<p>운영기관: {{ booth.company }}</p>' +
+                                '<p>전화번호: {{ booth.contact }}</p>' +
+                                '<p>장소: {{ booth.place }}</p>' +
+                                '<p>대상: {{ booth.target }}</p>' +
+                                '<p>시간: {{ booth.time }}</p>' +
+                                '<p>날짜: {{ booth.date }}</p>' +
+                            '</div>'+
+                        '</div>';
+                    var infowindow = new google.maps.InfoWindow({content: contentString});
+                    var latlng = new google.maps.LatLng({{ booth.latitude }}, {{ booth.longitude }});
+                    var marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map,
+                    });
+                    (function (inf, mar) {
+                        marker.addListener('click', function() {
+                            inf.open(map, mar);
+                        })}
+                    )(infowindow, marker);
+                {% endfor %}
+            }
+        </script>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key={{ MAP_KEY }}&callback=initMap">
+        </script>
+    </body>
+</html>
