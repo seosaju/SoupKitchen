@@ -5,11 +5,11 @@
     <head>
         <title>전국 무료 급식소 지도</title>
         <link rel="stylesheet" href="{% static 'css/maps.css' %}">
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:500,900&display=swap" rel="stylesheet">
     </head>
     <body>
         <h1>전국 무료 급식소 지도</h1>
-        <hr />
+        <!-- The div element for the map -->
         <div id="map"></div>
         <script>
             function initMap() {
@@ -18,6 +18,13 @@
                     zoom: 6,
                 });
                 {% for booth in booths %}
+                    // marker
+                    var latlng = new google.maps.LatLng({{ booth.latitude }}, {{ booth.longitude }});
+                    var marker = new google.maps.Marker({
+                       position: latlng,
+                       map: map
+                    });
+                    // infowindow
                     var contentString =
                         '<div id="content">' +
                             '<div id="siteNotice">' +
@@ -35,16 +42,12 @@
                             '</div>'+
                         '</div>';
                     var infowindow = new google.maps.InfoWindow({content: contentString});
-                    var latlng = new google.maps.LatLng({{ booth.latitude }}, {{ booth.longitude }});
-                    var marker = new google.maps.Marker({
-                        position: latlng,
-                        map: map,
-                    });
-                    (function (inf, mar) {
+                    // IIFE(Immediately Invoked Function Expressions)
+                    (function () {
                         marker.addListener('click', function() {
-                            inf.open(map, mar);
+                            infowindow.open(map, marker);
                         })}
-                    )(infowindow, marker);
+                    )();
                 {% endfor %}
             }
         </script>
