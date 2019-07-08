@@ -6,7 +6,7 @@ from .models import Booth, Company
 
 '''
 def make_booth(request):
-    booth_list = load('./전국무료급식소표준데이터.csv')
+    booth_list = load('./data.csv')
     for booth in booth_list:
         name = booth[3]
         try:
