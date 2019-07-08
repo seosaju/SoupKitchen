@@ -9,25 +9,28 @@ html, body {
     margin: 0;
     padding: 0;
 }
-h1 {
+h1, h2 {
     text-align: center;
-    font-family: 'Do Hyeon', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+h1 {
     font-size: 45px;
+}
+h2 {
+    font-size: 25px;
 }
 hr {
     margin-bottom: 45px;
 }
-h2 {
-    text-align: center;
-    font-family: 'Do Hyeon', sans-serif;
-    font-size: 25px;
+#firstHeading {
+    font-size: 30px;
 }
 #bodyContent p {
     margin: 3px;
 }
 #email {
     text-align: center;
-    font-family: 'Do Hyeon', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     color: grey;
     font-size: 20px;
 }
